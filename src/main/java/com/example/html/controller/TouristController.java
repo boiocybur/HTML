@@ -25,39 +25,47 @@ public class TouristController {
 
 
 
-    @GetMapping(path = "/list")     //localhost:8080/kea/velkommen
-    public ResponseEntity<ArrayList<Message>> getMessages() {
-        ArrayList messageList = touristService.getAttractions();
-        return new ResponseEntity<ArrayList<Message>>(messageList, HttpStatus.OK);
+    @GetMapping(path = "/list")         //localhost:8080/attractions/list
+    public ResponseEntity<ArrayList<TouristAttraction>> getMessages() {
+        ArrayList attractionList = touristService.getAttractions();
+        return new ResponseEntity<ArrayList<TouristAttraction>>(attractionList, HttpStatus.OK);
     }
 
 
-    @GetMapping(path = "/{name}")    //localhost:8080/kea/velkommen/1
+    @GetMapping(path = "/{name}")       //localhost:8080/attractions/name
     public ResponseEntity<String> getMessage(@PathVariable String name) {
 
         touristService.getAttraction(name);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type","text/html");
-
-
-        return new ResponseEntity<String>(
-                "<html><body><h1>" +
-                        touristService.getAttraction(name) +
-                        "</h1></body></html>"
-                ,responseHeaders, HttpStatus.OK);
+        for (TouristAttraction touristAttraction : touristService.getAttraction(name)) {
+            String attractionName = touristAttraction.getName();
+            String attractionDecription = touristAttraction.getDescription();
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Content-Type","text/html");
+            return new ResponseEntity<String>(
+                    "<html><body><h1>" +
+                            attractionName +
+                            "</h1>" +
+                            "<p>" +
+                            attractionDecription +
+                            "</p>" +
+                            "</body>" +
+                            "</html>"
+                    ,responseHeaders, HttpStatus.OK);
+        }
+        return null;
     }
 
 
 
 
-    @PostMapping(path = "/add")      //localhost:8080/kea/velkommen/opret
-    public ResponseEntity<TouristAttraction> postAttraction(@RequestBody String name, String description) {
-        TouristAttraction returnTouristAttraction = touristService.postAttractions(name, description);
+    @PostMapping(path = "/add")         //localhost:8080/attractions/add
+    public ResponseEntity<TouristAttraction> postAttraction(@RequestBody TouristAttraction touristAttraction) {
+        TouristAttraction returnTouristAttraction = touristService.postAttractions(touristAttraction.getName(), touristAttraction.getDescription());
         return new ResponseEntity<TouristAttraction>(returnTouristAttraction, HttpStatus.OK);
     }
 
 
-    @PutMapping(path = "/update")     //localhost:8080/kea/velkommen/ret
+    @PutMapping(path = "/update")       //localhost:8080/attractions/update
     public ResponseEntity<TouristAttraction> putAttraction(@RequestBody String name, String description) {
         TouristAttraction returnTouristAttraction = touristService.putAttractions(name, description);
         if (returnTouristAttraction!=null)
@@ -67,7 +75,7 @@ public class TouristController {
     }
 
 
-    @DeleteMapping("/delete/{name}")
+    @DeleteMapping("/delete/{name}")    //localhost:8080/attraction/delete/name
     public ResponseEntity<TouristAttraction> deleteMessage(@RequestBody String name) {
         TouristAttraction returnAttraction = touristService.deleteAttractions(name);
         return new ResponseEntity<TouristAttraction>(returnAttraction, HttpStatus.OK);
