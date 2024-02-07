@@ -32,7 +32,7 @@ public class TouristController {
     }
 
 
-    @GetMapping(path = "/{name}")       //localhost:8080/attractions/name
+    @GetMapping(path = "/name")       //localhost:8080/attractions/name
     public ResponseEntity<String> getMessage(@PathVariable String name) {
 
         touristService.getAttraction(name);
@@ -59,8 +59,8 @@ public class TouristController {
 
 
     @PostMapping(path = "/add")         //localhost:8080/attractions/add
-    public ResponseEntity<TouristAttraction> postAttraction(@RequestBody TouristAttraction touristAttraction) {
-        TouristAttraction returnTouristAttraction = touristService.postAttractions(touristAttraction.getName(), touristAttraction.getDescription());
+    public ResponseEntity<TouristAttraction> postAttraction(@RequestBody String name, String description) {
+        TouristAttraction returnTouristAttraction = touristService.postAttractions(name, description);
         return new ResponseEntity<TouristAttraction>(returnTouristAttraction, HttpStatus.OK);
     }
 
@@ -75,7 +75,7 @@ public class TouristController {
     }
 
 
-    @DeleteMapping("/delete/{name}")    //localhost:8080/attraction/delete/name
+    @DeleteMapping("/delete/name")    //localhost:8080/attraction/delete/name
     public ResponseEntity<TouristAttraction> deleteMessage(@RequestBody String name) {
         TouristAttraction returnAttraction = touristService.deleteAttractions(name);
         return new ResponseEntity<TouristAttraction>(returnAttraction, HttpStatus.OK);

@@ -12,6 +12,24 @@
 <body>
 <h1>DANMARK!</h1>
 <p>Sjælland er Danmarks største ø, en af de mest befolkede regioner i Danmark og hjemsted for landets hovedstad København.</p>
+<form action="/add" method="POST" id="name" id="description">
+    <div>
+        <label for="description">Tilføj attraktion</label>
+        <input name="name" id="name2">
+        <button>Tilføj</button>
+    </div>
+    <div>
+        <label for="description">Tilføj beskrivelse</label>
+        <input name="description" id="description2">
+    </div>
+</form>
+    <form action="/{name}" method="=GET" id="nameButton">
+        <div>
+            <label for="nameButton">find attraktion</label>
+            <input name="findAttraktion" id="nameButton2">
+            <button>find</button>
+        </div>
+    </form>
 <b>Turistattraktioner</b>
 <li><a href="https://www.getyourguide.dk/amalienborg-slot-l3823/">Amalienborg Slot</a></li>
 <li><a href="https://www.getyourguide.dk/frederiksborg-slot-l1956/">Frederiksborg Slot</a></li>
